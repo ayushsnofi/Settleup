@@ -7,10 +7,12 @@ import javax.crypto.SecretKey;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
 import lombok.RequiredArgsConstructor;
+
 
 @Service
 @RequiredArgsConstructor
@@ -42,6 +44,17 @@ public class JwtSerivce {
                 .getSubject();
     }
 
+    public boolean isTokenValid(String token){
+        try{
+            Jwts.parser().verifyWith(getKey())
+                .build()
+                .parseSignedClaims(token);
+
+                return true;
+        }catch(Exception e){
+            return false;
+        }
+    }
 
 
     private SecretKey getKey() {
