@@ -1,5 +1,7 @@
 package com.ayush.settleUp.service.impl;
 
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,7 @@ public class AuthServiceImpl implements AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtSerivce jwtSerivce;
+    private final AuthenticationManager authenticationManager;
 
     @Override
     public void register(RegisterRequest request){
@@ -39,12 +42,8 @@ public class AuthServiceImpl implements AuthService {
         User user= userRepository.findByEmail(request.getEmail())
                                  .orElseThrow(()-> new RuntimeException("Invalid Credentials"));
 
-        boolean valid= passwordEncoder.matches(request.getPassword(), user.getPassword());
-
-        if(!valid){
-            throw new RuntimeException("Invalid Expection");
-        }
-
+     authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
+     
         return jwtSerivce.generateToken(user.getEmail());
     }
 }

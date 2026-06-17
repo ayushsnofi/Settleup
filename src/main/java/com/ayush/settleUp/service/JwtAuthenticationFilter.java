@@ -1,5 +1,7 @@
 package com.ayush.settleUp.service;
 
+import java.io.IOException;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,6 +14,7 @@ import com.ayush.settleUp.security.CustomUserDetailsService;
 import com.ayush.settleUp.service.security.JwtSerivce;
 
 import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,7 +25,7 @@ import lombok.RequiredArgsConstructor;
 public class JwtAuthenticationFilter
         extends OncePerRequestFilter {
 
-    private final JwtService Jwervice;
+    private final JwtSerivce jwtService;
     private final CustomUserDetailsService userDetailsService;
 
     @Override
