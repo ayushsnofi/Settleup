@@ -2,6 +2,8 @@ package com.ayush.settleUp.entity;
 
 import java.time.LocalDateTime;
 
+import org.springframework.data.annotation.CreatedBy;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -32,7 +34,7 @@ public class Group {
 
     @ManyToOne
     @JoinColumn(name="created_by")
-    private User user;
+    private User createdBy;
 
     private LocalDateTime createdAt;
 }
